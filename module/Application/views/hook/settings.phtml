@@ -1,0 +1,92 @@
+<script type="text/javascript">
+var url = baseUrl() + 'api/hook';
+$(document).ready(function() {
+	$(".content").ajaxWithEffect(url, function(data) {
+		populateHooks(data);
+		$.modal.defaults.resizable = false;
+		var content = $('div.modal_content').clone();
+		$(content).find('form').attr('id', 'hooks');
+		$("a.com_btn").bind('click', function(e) {
+			e.preventDefault();
+			$.modal({
+				content: content.html(),
+				maxWidth: 500,
+				buttons: {
+					'CANCEL': function(win) {
+						win.closeModal();
+					},
+					'+ ADD HOOK': function(win) { 
+						$(this).ajaxWithEffect(url, $("#hooks").serializeArray(), function(data) {
+							win.closeModal();
+							populateHooks(data);
+						});
+					}
+				}
+			});
+		});
+	});	
+});
+</script>
+<div class="sub-navigation">
+	<ul>
+		<li><a href="/settings">GENERAL</a></li>
+		<li><a href="/settings/keys">KEYS</a></li>
+		<li><a href="/settings/hooks" class="active">HOOKS</a></li>
+		<li><a href="/settings/subscriptions">SUBSCRIPTIONS</a></li>
+	</ul>
+</div>
+
+<div class="clear"></div>
+
+<div class="line"></div>
+
+<div class="in author">
+	<a class="txt_right com_btn" href="#">+ ADD HOOK</a>
+	<h2>Web Hooks</h2>
+	<p>Use web hooks to be notified of events that happen in your account.</p>
+</div>
+
+<div class="line"></div>
+
+<div class="in">	
+	<table width="850" border="0" cellspacing="0" cellpadding="10" class="table_main" >
+		<thead>
+		  <tr style="background-color:#d9d8d8; font-size:14px;">
+			<th id="end_point" width="400"><strong>URL</strong></td>
+			<th id="mode" width="200"><strong>MODE</strong></td>
+			<th><strong>ACTIONS</strong></td>
+		  </tr>
+		</thead>
+	</table>			
+</div>
+
+
+<div style="display: none;" class="modal_content">
+	<div class="in author">
+		<h2>Add Event Hook Endpoint</h2>
+		<p>Specify an endpoint url that can receive events.</p>
+	</div>
+	<div class="in">
+		<div class="line"></div>
+			<div class="forms" style="">
+				<form method="post" action="">
+					<?php 
+						if (!$this->getAcl()->isAllowed($this->getIdentity()->getRole(), $this->resourceRoute, self::PERMISSION_CREATE_ALL)):
+					?>
+						<p><strong>USERNAME</strong>&nbsp;
+						<input type="text" name="username"/></p>
+					<?php
+						endif;
+					?>
+					<p><strong>URL</strong>&nbsp;
+					<input type="text" name="end_point" /></p>
+					<p><strong>MODE</strong>&nbsp;
+					<select name="mode">
+						<option value="test">TEST</option>
+						<option value="live">LIVE</option>
+					</select></p>
+					<div class="line"></div>
+				</form>
+			</div>
+		</div>
+</div>

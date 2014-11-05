@@ -1,0 +1,9 @@
+"responseData":{"count": "<?php echo count($data['accounts']); ?>", "accounts": [
+<?php
+	$accountsInfo = array();
+	foreach ($data['accounts'] as $account) {
+		$accountsInfo[] = $account->toJson(array('key' => '', 'deleted' => "true"), true);
+	}
+	echo implode(',', $accountsInfo);
+	?>
+]}

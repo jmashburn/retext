@@ -1,0 +1,126 @@
+<?php
+	$identity = $this->getIdentity();
+
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+	var url = baseUrl() + 'api/account';
+	$.modal.defaults.resizable = false;
+	var content = $('div.modal_content').clone();
+	$(content).find('form').attr('id', 'change_password');
+	$("a.com_btn").bind('click', function(e) {
+		e.preventDefault();
+		$.modal({
+			content: content.html(),
+			maxWidth: 500,
+			buttons: {
+				'CANCEL': function(win) {
+					win.closeModal();
+				},
+				'+ CHANGE PASSWORD': function(win) { 
+					$(this).ajaxWithEffect(url + '/password', $("#change_password").serializeArray(), function(data) {
+						win.closeModal();
+					});
+				}
+			}
+		});
+	});
+	$("#account_settings").submit(function(e) {
+		e.preventDefault();
+		$(".content").ajaxWithEffect(url, $(this).serializeArray(), function(data) {
+			alert('here');
+		});
+	});
+});
+</script>
+<div class="container">
+	<div class="sub-navigation">
+		<ul>
+			<li><a href="/settings" class="active">GENERAL</a></li>
+			<li><a href="/settings/keys">KEYS</a></li>
+			<li><a href="/settings/hooks">HOOKS</a></li>
+			<li><a href="/settings/subscriptions">SUBSCRIPTIONS</a></li>
+		</ul>
+	</div>
+
+	<div class="clear"></div>
+
+	<div class="line"></div>
+
+	<div class="in author">
+		<h2>Update General Settings</h2>
+	</div>
+
+	<div class="line"></div>
+	
+	<form id="account_settings" name="account_settings" novalidate class="form-horizontal" method="post" action="">
+
+		<p><strong>EMAIL:</strong><br />
+		<input type="text" name="email" class="box" value="<?php echo $identity->getEmail(); ?>"/></p>
+
+		<div class="line"></div>
+
+		<p><strong>PASSWORD:</strong>
+		<a href="#" class="com_btn">CHANGE PASSWORD</a></p>
+
+		<div class="line"></div>
+
+		<p><strong>COUNTRY:</strong>
+		<select name="country">
+			<option value="US">United States</option>
+		</select>
+
+		<p><strong>TIMEZONE:</strong>
+		<select name="timezone">
+			<option value="GMT">GMT</option>
+		</select>
+
+		
+	</form>
+
+
+<!-- Checks -->
+<div class="in forms">
+	<form id="account_settings" name="account_settings" method="post" action="">
+		<p><strong>USERNAME</strong><br />
+			<?php echo $identity->getUsername(); ?></p>
+
+		<p><strong>EMAIL:</strong><br />
+		<input type="text" name="email" class="box" value="<?php echo $identity->getEmail(); ?>"/></p>
+
+		<div class="line"></div>
+
+		<p><strong>PASSWORD:</strong>
+		<a href="#" class="com_btn">CHANGE PASSWORD</a></p>
+
+		<div class="line"></div>
+
+		<p><strong>COUNTRY:</strong>
+		<select name="country">
+			<option value="US">United States</option>
+		</select>
+
+		<p><strong>TIMEZONE:</strong>
+		<select name="timezone">
+			<option value="GMT">GMT</option>
+		</select>
+
+		<div class="line"></div>
+
+		<p><input name="submit" type="submit" id="submit"  tabindex="5" class="com_btn" value="UPDATE" /></p>
+	</form>
+</div>
+<div style="display: none;" class="modal_content">
+	<div class="line"></div>
+	<div class="forms" style="">
+		<form method="post" action="">
+			<p><strong>CURRENT PASSWORD</strong>&nbsp;
+			<input type="password" name="password" /></p>
+			<p><strong>NEW PASSWORD</strong>&nbsp;
+			<input type="password" name="newPassword" /></p>
+			<p><strong>CONFIRM PASSWORD</strong>&nbsp;
+			<input type="password" name="confirmNewPassword" /></p>
+			<div class="line"></div>
+		</form>
+	</div>
+</div>

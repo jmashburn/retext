@@ -1,0 +1,9 @@
+"responseData":{"count": "<?php echo count($data['hooks']); ?>", "hooks": [
+<?php
+	$hooksInfo = array();
+	foreach ($data['hooks'] as $hook) {
+		$hooksInfo[] = $hook->toJson(array('key' => '', 'deleted' => "true"), true);
+	}
+	echo implode(',', $hooksInfo);
+	?>
+]}

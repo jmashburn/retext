@@ -1,0 +1,9 @@
+"responseData":{"count": "<?php echo count($data['events']); ?>", "events": [
+<?php 
+	$eventsInfo = array();
+	foreach ($data['events'] as $event) {
+		$eventsInfo[] = $this->apiEventJson($event);
+	}
+	echo implode(',', $eventsInfo);
+?>
+]}

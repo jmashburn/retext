@@ -1,0 +1,28 @@
+{
+    "repositories": [
+	{
+	    "type": "vcs",
+	    "url": "https://github.com/jmashburn/ToroPHP"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/jmashburn/php-resque"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/jmashburn/php-resque-scheduler"
+        }
+    ],
+    "require": {
+        "php": ">5.3.0",
+        "torophp/torophp": "dev-master",
+        "lespoilus/spyc": "dev-master",
+	    "twilio/sdk": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Retext\\": "module/Retext/src/",
+            "": ["module/Application/src/"]
+        }
+    }
+}
