@@ -24,6 +24,9 @@ if [ -f "${MARKER_FILE}" ]; then
 	exit 0
 fi
 
+# Install PHPUnit
+yum install php-phpunit-PHPUnit -y
+
 
 echo '
 server {
