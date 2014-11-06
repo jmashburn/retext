@@ -13,7 +13,7 @@ class MessageHandler extends JsonHandler {
 
 	protected $authAdapter = 'Application\Authentication\Authentication';
 
-	//  List All/Single Hooks(s)
+	//  List All/Single Messages(s)
 	public function get($key = null) {
 		try {
 			// Check if User is allowed to List all Keys
@@ -28,6 +28,14 @@ class MessageHandler extends JsonHandler {
 				if (!$this->getAcl()->isAllowed($identity->getRole(), $this->resourceRoute, self::PERMISSION_LIST_ALL)) {
 					$owner = $identity->getUsername();
 				}
+			}
+
+			if ($key == "chart") {
+				return $this->chart(7);
+			} 
+
+			if ($key == 'count') {
+				return $this->count();
 			}
 
 			if ($key) {
@@ -97,7 +105,7 @@ class MessageHandler extends JsonHandler {
 				// $hooks = $this->getMapper()->findAllHooks($owner);
 
 				#$hooks = $this->getMapper()->findHookByEndPoint($params['end_point'], $params['username']);
-				return $this->display('retext/list.json.phtml', compact('retexts'));
+				return $this->display('retext/message/list.json.phtml', compact('retexts'));
 			} else {
 				throw new Exception(__('The message end_point "%s" already exists.', array($params['end_point'])), Exception::WEBAPI_KEY_ADD_FAILED);
 			}
@@ -126,33 +134,85 @@ class MessageHandler extends JsonHandler {
 			}
 
 			$deletes = array();
-			$retexts = array();
+			$messages = array();
 			if (!empty($key)) {
-				$retexts = $this->getMapper()->findRetextByKey($key, $owner);
-				if (!empty($retexts[0]['id'])) {
-					$deletes['ids'][] = $retexts[0]['id'];
+				$messages = $this->getMapper()->findMessageByKey($key, $owner);
+				if (!empty($messages[0]['id'])) {
+					$deletes['ids'][] = $messages[0]['id'];
 				}
 			} elseif (!empty($params['ids'])) {
-				$retexts = $this->getMapper()->findAllRetexts($owner);
-				foreach ($retexts->toArray() as $key => $retext) {
-					if (!in_array($retext['key'], $params['ids'])) {
-						unset($retexts[$key]);
+				$messages = $this->getMapper()->findAllMessages($owner);
+				foreach ($messages->toArray() as $key => $message) {
+					if (!in_array($message['key'], $params['ids'])) {
+						unset($messages[$key]);
 					} else {
-						$deletes['ids'][] = $retext['id'];
+						$deletes['ids'][] = $message['id'];
 					}
 				}
 			}
 
 			if (!empty($deletes['ids'])) {
-				$result = $this->getMapper()->deleteRetextssById($deletes['ids']);
-				\Event::fire('retext.deleted', compact('result'));
+				$result = $this->getMapper()->deleteMessagesById($deletes['ids']);
+				\Event::fire('retext.message.deleted', compact('result'));
 			} else {
 				throw new Exception(__('No Retexts were deleted. Please check permissions'), Exception::AUTH_ERROR);
 			}
 
-			return $this->display('retext/delete.json.phtml', compact('hooks'));
+			return $this->display('retext/message/delete.json.phtml', compact('messages'));
 		} catch (Exception $e) {
 			return $this->display('exception/exception.json.phtml', $e);
 		}
+	}
+
+	private function chart($day = 7) {
+		$this->layout = "views/layout/blank.phtml";
+		$end = time();
+		$start = strtotime('-'.$day.' days');
+		$sql = " WHERE `creation_time` >= '$start' AND `creation_time` <= '$end'";
+		// Query Date less than now and greather than 7 days ago.
+		$messages = $this->getMapper()->findAllMessages(null, compact('sql') );
+
+		$codes = array();
+		$times = array();
+		foreach ($messages->toArray() as $message) {
+			if (!isset($codes[$message['code']])) {
+				$codes[$message['code']] = 1;
+			} else {
+				++$codes[$message['code']];
+			}
+
+			$day = date('Y-m-d H:i', $message['creation_time']);
+			if (!isset($times[$day])) {
+				$times[$day] = 1;
+			} else {
+				++$times[$day];
+			}
+		}
+		$result['codes'] = array();
+		foreach ($codes as $key => $value) {
+			$tmp = array('label' => $key, 'value' => $value);
+			array_push($result['codes'], $tmp);
+		}
+
+		$result['messages'] = array();
+		foreach ($times as $key => $value) {
+			$tmp = array('period' => $key, 'messages' => $value);
+			array_push($result['messages'], $tmp);
+		}
+
+		$messages = json_encode($result);
+
+		return $this->display('retext/message/blank.json.phtml', $messages);
+	}
+
+	private function count($day = 7) {
+		$this->layout = "views/layout/blank.phtml";
+
+		$end = time();
+		$start = strtotime('-'.$day.' days');
+		$sql = " WHERE `creation_time` >= '$start' AND `creation_time` <= '$end'";
+		$count = $this->getMapper()->count("SELECT COUNT(*) FROM retext_messages" . $sql);
+		$count = json_encode(array('count' => $count));
+		return $this->display('retext/message/blank.json.phtml', $count);
 	}
 }

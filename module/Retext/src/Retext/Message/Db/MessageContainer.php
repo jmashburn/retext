@@ -7,8 +7,7 @@ use Application\Container\AbstractContainer;
 class MessageContainer extends AbstractContainer {
 
 	public function toJson(array $defaults = array(), $filter = false) {
-		unset($this->id);
-		unset($this->username);
+		$this->DT_RowId = $this->key;
 		unset($this->creation_time);
 		return parent::toJson($defaults, $filter);
 	}

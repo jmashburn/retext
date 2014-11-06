@@ -54,19 +54,21 @@ class MessageMapper extends AbstractMapper {
 	    return (!empty($keys)?$keys:array());
 	}
 
-	public function findAllMessages($owner = null) {
+	public function findAllMessages($owner = null, $params = array()) {
 		$sql = "SELECT * FROM `retext_messages`";
 		if ($owner) {
 			$sql .= " WHERE `username`=:username";
 		}
-		$params = array();
 		if ($owner) {
 			$params[':username'] = $owner;
 		}
-		$keys = $this->select($sql, $params);
-
-		if (!empty($keys)) {
-			return $keys;
+		if (!empty($params['sql'])) {
+			$sql .= $params['sql'];
+			unset($params['sql']);
+		}
+		$messages = $this->select($sql, $params);
+		if (!empty($messages)) {
+			return $messages;
 		}
 		return array();
 	}

@@ -47,7 +47,7 @@ server {
   }
 
   # serve static files directly
-  location ~* \.(jpg|jpeg|gif|css|png|js)$ {
+  location ~* \.(jpg|jpeg|gif|css|png|js|woff|ttf)$ {
         root ROOT/public;
         access_log off;
         expires max;

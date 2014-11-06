@@ -30,6 +30,10 @@ class CodeHandler extends JsonHandler {
 				}
 			}
 
+			if ($code == 'count') {
+				return $this->count();
+			}
+
 			if ($code) {
 				$code = $this->getMapper()->findCodeByKey($code, $owner);
 				print_r($code);
@@ -123,33 +127,41 @@ class CodeHandler extends JsonHandler {
 			}
 
 			$deletes = array();
-			$retexts = array();
+			$codes = array();
 			if (!empty($key)) {
-				$retexts = $this->getMapper()->findRetextByKey($key, $owner);
-				if (!empty($retexts[0]['id'])) {
-					$deletes['ids'][] = $retexts[0]['id'];
+				$codes = $this->getMapper()->findCodeByKey($key, $owner);
+				if (!empty($codes[0]['id'])) {
+					$deletes['ids'][] = $codes[0]['id'];
 				}
 			} elseif (!empty($params['ids'])) {
-				$retexts = $this->getMapper()->findAllRetexts($owner);
-				foreach ($retexts->toArray() as $key => $retext) {
-					if (!in_array($retext['key'], $params['ids'])) {
-						unset($retexts[$key]);
+				$codes = $this->getMapper()->findAllCodes($owner);
+				foreach ($codes->toArray() as $key => $code) {
+					if (!in_array($code['key'], $params['ids'])) {
+						unset($codes[$key]);
 					} else {
-						$deletes['ids'][] = $retext['id'];
+						$deletes['ids'][] = $code['id'];
 					}
 				}
 			}
 
 			if (!empty($deletes['ids'])) {
-				$result = $this->getMapper()->deleteRetextssById($deletes['ids']);
+				$result = $this->getMapper()->deleteCodesById($deletes['ids']);
 				\Event::fire('retext.deleted', compact('result'));
 			} else {
 				throw new Exception(__('No Retexts were deleted. Please check permissions'), Exception::AUTH_ERROR);
 			}
 
-			return $this->display('retext/delete.json.phtml', compact('hooks'));
+			return $this->display('retext/code/delete.json.phtml', compact('codes'));
 		} catch (Exception $e) {
 			return $this->display('exception/exception.json.phtml', $e);
 		}
+
+	}
+
+	private function count() {
+		$this->layout = "views/layout/blank.phtml";
+		$count = $this->getMapper()->count("SELECT COUNT(*) FROM retext_codes");
+		$count = json_encode(array('count' => $count));
+		return $this->display('retext/code/blank.json.phtml', $count);
 	}
 }

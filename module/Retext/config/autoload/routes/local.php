@@ -11,6 +11,7 @@ return array(
 	"/api/retext/code"					=> "Retext\Code\Handler\CodeHandler",
 	"/api/retext/code/(disable|enable)"	=> "Retext\Code\Handler\CodeHandler",
 	"/api/retext/code/:alpha"			=> "Retext\Code\Handler\CodeHandler",
+	"/api/retext/code/(count)"			=> "Retext\Code\Handler\CodeHandler",
 
 
 	"/retext/message" 					=> "Retext\Message\Handler\MessageHtmlHandler",
@@ -18,6 +19,7 @@ return array(
 	"/api/retext/message"					=> "Retext\Message\Handler\MessageHandler",
 	"/api/retext/message/(disable|enable)"	=> "Retext\Message\Handler\MessageHandler",
 	"/api/retext/message/:alpha"			=> "Retext\Message\Handler\MessageHandler",
+	"/api/retext/message/(chart|count)"			=> "Retext\Message\Handler\MessageHandler",
 
 
 

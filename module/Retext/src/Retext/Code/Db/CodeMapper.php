@@ -84,7 +84,7 @@ class CodeMapper extends AbstractMapper {
 		$hash = $this->generateHash();
 		$keyFields = array(
 			'key' => uniqid('rtc_'),
-			'code' => $params['code'],
+			'code' => strtoupper($params['code']),
 			'message' => $params['message'],
 			'mode' => 'LIVE',
 			'creation_time' => time(),
@@ -99,7 +99,7 @@ class CodeMapper extends AbstractMapper {
 		return new \Application\Set(array(array_merge(array('id' => $result), $keyFields)), $this->setClass);
 	}
 
-	public function deleteRetextsById(array $ids) {
+	public function deleteCodesById(array $ids) {
 		return $this->delete('DELETE FROM `retext_codes` WHERE ' . $this->getSqlInStatement('id', $ids));
 	}
 
