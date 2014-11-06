@@ -1,4 +1,4 @@
-retext: Retext [![Build Status](https://travis-ci.org/jmashburn/retext.svg?branch=master)](http://travis-ci.org/jmashburn/retext)
+Retext [![Build Status](https://travis-ci.org/jmashburn/Retext.svg?branch=master)](https://travis-ci.org/jmashburn/Retext)
 ===========================================
 
 ## Background ##
