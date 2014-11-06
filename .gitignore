@@ -1,2 +1,4 @@
 .vagrant
 composer.lock
+vendor
+var/log/*.log
