@@ -27,7 +27,7 @@ class TwilioHandler extends AbstractHandler {
 		try {	
 
 			$params = $this->getParameters();
-			$code = $this->getMapper('Retext\Code\Db\CodeMapper')->findCodeByCode(strtoupper($params['Body']));
+			$code = $this->getMapper('Retext\Code\Db\CodeMapper')->findCodeByCode(strtoupper(trim($params['Body'])));
 			if (!empty($code[0]['id'])) {
 				$code = $code->current();
 				$data = array(
@@ -36,7 +36,7 @@ class TwilioHandler extends AbstractHandler {
 					'message_received' => json_encode($params)
 				);
 				$message = $this->getMapper('Retext\Message\Db\MessageMapper')->addMessage($data);
-				//\Application\Log::debug(print_r($message, true));
+				\Application\Log::debug(print_r($message, true));
 			} else {
 				$code = array('message' => sprintf("Umm, yeah. \"%s\" is not really a thing.", $params['Body']));
 			}

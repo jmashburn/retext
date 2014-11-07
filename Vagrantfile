@@ -27,6 +27,24 @@ fi
 # Install PHPUnit
 yum install php-phpunit-PHPUnit -y
 
+# Install Mysql 5.6
+sudo yum install mysql-server -y
+
+sudo /sbin/service mysqld start
+sudo /sbin/chkconfig mysqld on
+
+PASS=`awk 'NF>1{print $NF}' .mysql_secret`
+mysql --user="root" --password="$PASS" --execute="SET PASSWORD=password('root')";
+mysql --user="root" --password="root" --execute="create user 'retext'@'localhost' identified by 'retext';"
+mysql --user="root" --password="root" --execute="create database retext_dev CHARACTER SET 'utf8' COLLATE 'utf8_bin';"
+mysql --user="root" --password="root" --execute="grant all on retext_dev.* to 'retext'@'localhost';"
+mysql --user="root" --password="root" --execute="create database retext_test CHARACTER SET 'utf8' COLLATE 'utf8_bin';"
+mysql --user="root" --password="root" --execute="grant all on retext_test.* to 'retext'@'localhost';"
+mysql --user="root" --password="root" --execute="grant all privileges on *.* to 'retext'@'%' identified by 'retext';"
+mysql --user="root" --password="root" --execute="flush privileges;"
+
+# Install pdo-mysql
+yum install php-mysql -y
 
 echo '
 server {

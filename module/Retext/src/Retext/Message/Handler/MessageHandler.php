@@ -54,14 +54,15 @@ class MessageHandler extends JsonHandler {
 	}
 
 	// Add/Update Message(s)
-	public function post($retext = null) {
+	public function post($key = null) {
 		try {
 			if (!$this->hasIdentity()) {
 				throw new Exception(__('Authentication error. Please login.'), Exception::AUTH_ERROR);
 			}
 
 			$params = $this->getParameters(array('status' => 'pending'));
-			$this->validateMandatoryParameters($params, array('id', 'message_sent', 'message_received'));
+			$this->validateMandatoryParameters($params, array('code', 'message_sent', 'message_received'));
+			$this->validateString($params['code'], 'code');
 			$this->validateString($params['message_sent'], 'message_sent');
 			$this->validateString($params['message_received'], 'message_received');
 
@@ -86,29 +87,9 @@ class MessageHandler extends JsonHandler {
 					throw new Exception(__('Account: "%s" does not exist. Please try again.', array($params['username'])), Exception::WEBAPI_VALUE_ADD_FAILED);
 				}
 			}
-
 			$messages = $this->getMapper()->addMessage($params);
+			\Event::fire('retext.message.created', compact('messages'));
 			return $this->display('retext/message/list.json.phtml', compact('messages'));
-
-
-			$owner = null;
-			#$retext = $this->getMapper()->findMessageByKey($params['end_point'], $params['username']);
-			if (empty($hook['id'])) {
-				if (empty($retexts[0]['id'])) {
-					// Audit/Log
-					throw new Exception(__('Could not write to database: retexts table. Please check permissions'), Exception::PERMISSIONS);
-				}
-				\Event::fire('retext.created', compact('retexts'));
-				// if (!$this->getAcl()->isAllowed($identity->getRole(), $this->resourceRoute, self::PERMISSION_LIST_ALL)) {
-				// 	$owner = $identity->getUsername();
-				// }
-				// $hooks = $this->getMapper()->findAllHooks($owner);
-
-				#$hooks = $this->getMapper()->findHookByEndPoint($params['end_point'], $params['username']);
-				return $this->display('retext/message/list.json.phtml', compact('retexts'));
-			} else {
-				throw new Exception(__('The message end_point "%s" already exists.', array($params['end_point'])), Exception::WEBAPI_KEY_ADD_FAILED);
-			}
 		} catch (Exception $e) {
 			return $this->display('exception/exception.json.phtml', $e);
 		}
@@ -181,7 +162,7 @@ class MessageHandler extends JsonHandler {
 				++$codes[$message['code']];
 			}
 
-			$day = date('Y-m-d H:i', $message['creation_time']);
+			$day = date('Y-m-d', $message['creation_time']);
 			if (!isset($times[$day])) {
 				$times[$day] = 1;
 			} else {

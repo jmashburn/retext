@@ -83,7 +83,7 @@ class HookMapper extends AbstractMapper  {
 			'username' => $params['username'],
 			'end_point' => $params['end_point'],
 			'mode' => $params['mode'],
-			'creation_time' => time(),
+			'creation_time' => date('Y-m-d H:i:s', time()),
 		);
 		try {
 			$result = $this->insert("INSERT INTO `gui_hooks` (`key`, `username`, `end_point`, `mode`, `creation_time`) VALUES (:key, :username, :end_point, :mode, :creation_time)", 

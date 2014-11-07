@@ -8,7 +8,6 @@ $time = explode(' ', $time);
 $start = $time[1] + $time[0];
 
 session_start();
-include_once 'module/Application/src/functions.php';
 $config = include_once 'init_autoloader.php';
 
 

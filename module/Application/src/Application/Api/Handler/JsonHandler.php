@@ -146,13 +146,17 @@ class JsonHandler extends AbstractHandler {
 		return $this->apiUrl;
 	}
 
-	public function getMapper($mapperClass = null) {
-		try {
-			return parent::getMapper($mapperClass);
-		} catch (\Application\Exception $e) {
-			throw new Exception($e->getMessage(), $e->getCode());
-		}
-	}
+	// public function getMapper($mapperClass = null) {
+	// 	if (!is_null($mapperClass)) {
+	// 		$this->mapperClass = $mapperClass;
+	// 	}
+	
+	// 	try {
+	// 		return parent::getMapper($this->mapperClass);
+	// 	} catch (\Application\Exception $e) {
+	// 		throw new Exception($e->getMessage(), $e->getCode());
+	// 	}
+	// }
 
 	protected function getParameters(array $defaults = array()) {
 		$parameters = parent::getParameters($defaults);

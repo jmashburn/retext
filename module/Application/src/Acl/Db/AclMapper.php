@@ -12,12 +12,15 @@ class AclMapper extends AbstractMapper  {
 
 	public $context = 'gui';
 
-	public function addResource($resource = null) {
+	public function addResource($resource) {
 		try {
-			$sql = "INSERT INTO `gui_acl_resources` ( `resource_name` ) VALUES(:resource_name)";
+			$sql = "INSERT INTO `gui_acl_resources` ( `resource_name` ) VALUES (:resource_name)";
 			$result = $this->select($sql, array(':resource_name' => $resource));
 		} catch (\Application\Exception $e) {
-			throw new Exception($e->getMessage(), $e->getCode());
+			#throw new Exception($e->getMessage(), $e->getCode());
+		} catch (\PDOException $e) {
+			print_r($e);
+			die();
 		}
 	}
 

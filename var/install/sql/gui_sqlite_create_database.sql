@@ -4,12 +4,14 @@ CREATE TABLE "gui_acl_privileges" (
 	 "resource_id" integer,
 	 "allow" varchar NOT NULL
 );
+INSERT INTO "gui_acl_privileges" values(1,1,'post,get');
 
 DROP TABLE IF EXISTS "gui_acl_resources";
 CREATE TABLE "gui_acl_resources" (
 	 "resource_id" integer PRIMARY KEY AUTOINCREMENT,
 	 "resource_name" varchar
 );
+INSERT INTO "gui_acl_resources" values(1, 'route:Account\\Handler\\LoginHandler');
 
 DROP TABLE IF EXISTS "gui_acl_roles";
 CREATE TABLE "gui_acl_roles" (
@@ -47,11 +49,10 @@ DROP TABLE IF EXISTS "gui_metadata";
 CREATE TABLE "gui_metadata" (
 	 "id" integer PRIMARY KEY AUTOINCREMENT,
 	 "name" varchar,
+	 "version" varchar,
 	 "data" varchar,
-	 "cdate" integer DEFAULT CURRENT_TIMESTAMP
+	 "creation_time" integer DEFAULT CURRENT_TIMESTAMP
 );
-
-INSERT INTO "gui_metadata" VALUES (1, 'gui_schema_version', 1.0, '2012-11-16 04:36:02');
 
 DROP TABLE IF EXISTS "gui_snapshots";
 CREATE TABLE "gui_snapshots" (
@@ -71,8 +72,8 @@ CREATE TABLE "gui_users" (
 	 "email" varchar,
 	 "role" varchar
 );
-
-INSERT INTO "gui_users" VALUES (1, 'u_9d9dxf9d9sf', 'admin', '2ddb205a2ac140044cfeab4e6d9f6adca05c415cd9272b5d04171207c7f520b0', 'admin@admin.com', 'root');
+# password
+INSERT INTO "gui_users" VALUES (1, 'u_9d9dxf9d9sf', 'admin', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'admin@local.dev', 'root');
 
 
 DROP TABLE IF EXISTS "gui_webapi_keys";

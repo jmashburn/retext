@@ -81,7 +81,7 @@ class MessageMapper extends AbstractMapper {
 			'message_received' => $params['message_received'],
 			'message_sent' => $params['message_sent'],
 			'status'		=> 'pending',
-			'creation_time' => time(),
+			'creation_time' => date('Y-m-d H:i:s', time()),
 		);
 
 		try {
@@ -93,7 +93,7 @@ class MessageMapper extends AbstractMapper {
 		return new \Application\Set(array(array_merge(array('id' => $result), $keyFields)), $this->setClass);
 	}
 
-	public function deleteRetextsById(array $ids) {
+	public function deleteMessagesById(array $ids) {
 		return $this->delete('DELETE FROM `retext_messages` WHERE ' . $this->getSqlInStatement('id', $ids));
 	}
 

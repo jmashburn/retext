@@ -133,6 +133,8 @@ class Response implements \ArrayAccess {
         511 => 'Network Authentication Required',
     );
 
+	protected $sendHeaders = true;
+
 	public $content = '';
 
 	public $headers = array();
@@ -153,6 +155,14 @@ class Response implements \ArrayAccess {
 		if ($message !== null) {
 			$this->parseResponse($message);
 		}
+	}
+
+	public function getSendHeaders() {
+		return (boolean)$this->sendHeaders;
+	}
+
+	public function setSendHeaders($value) {
+		$this->sendHeaders = (boolean)$value;
 	}
 
 	public function getContent() {
@@ -533,12 +543,12 @@ class Response implements \ArrayAccess {
         }
 
         $status  = $this->renderStatusLine();
-        header($status);
-
-        foreach ($this->getHeaders() as $header) {
-        	header($header);
-        }
-
+        if ($this->getSendHeaders()) {
+	        header($status);
+	        foreach ($this->getHeaders() as $header) {
+	        	header($header);
+	        }
+    	}
         $this->headersSent = true;
         return $this;
 	}

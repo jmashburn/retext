@@ -4,5 +4,5 @@ database:
     type: SQLITE
     name: gui.db
   retext:
-  	type: SQLITE
-  	name: retext.db
+    type: SQLITE
+    name: retext.db

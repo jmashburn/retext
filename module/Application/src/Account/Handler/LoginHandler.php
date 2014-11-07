@@ -32,6 +32,8 @@ class LoginHandler extends JsonHandler {
             $this->validateMandatoryParameters($params, array('username', 'password'));
 
             $identity = $this->getAuthAdapter()->authenticate($params); 
+            print_r($identity);
+            die('asd');
             if (!$identity->isValid()) {
                 throw new Exception($identity->getMessage(), Exception::AUTH_ERROR);
             }

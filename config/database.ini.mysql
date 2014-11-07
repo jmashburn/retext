@@ -1,0 +1,16 @@
+---
+database:
+  gui:
+    type: MYSQL
+    host: localhost
+    name: retext_dev
+    port: 3306
+    username: retext
+    password: retext
+  retext:
+    type: MYSQL
+    host: localhost
+    name: retext_dev
+    port: 3306
+    username: retext
+    password: retext

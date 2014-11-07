@@ -87,13 +87,15 @@ class CodeMapper extends AbstractMapper {
 			'code' => strtoupper($params['code']),
 			'message' => $params['message'],
 			'mode' => 'LIVE',
-			'creation_time' => time(),
+			'creation_time' => date('Y-m-d H:i:s', time()),
 		);
 
 		try {
 			$instance = ApiPDO::getInstance($this->context)->prepare("INSERT INTO `retext_codes` (`key`, `code`, `message`, `mode`, `creation_time`) VALUES (:key, :code, :message, :mode, :creation_time)");
 			$result = $instance->execute(array_combine(array(':key', ':code', ':message', ':mode', ':creation_time'), $keyFields));
 		} catch(\PDOException $e) {
+			print_r($e);
+			die();
 			throw new Exception($e->getMessage(), $e->getCode());
 		}
 		return new \Application\Set(array(array_merge(array('id' => $result), $keyFields)), $this->setClass);

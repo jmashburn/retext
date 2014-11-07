@@ -401,6 +401,10 @@ abstract class AbstractHandler {
         return strcasecmp($request->getMethod(), $method) === 0;
     }
 
+    public function setRequest(HttpRequest $request) {
+        $this->request = $request;
+    }
+
     public function getRequest() {
         if (!$this->request) {
             $this->request = new HttpRequest();
@@ -450,36 +454,38 @@ abstract class AbstractHandler {
         return true;
     }
 
-    protected function getAuthAdapter($authAdapter=null) {
-        if (!$authAdapter) {
-            $authAdapter = $this->authAdapter;
+    public function getAuthAdapter($authAdapter=null) {
+        if (!is_null($authAdapter) && class_exists($authAdapter)) {
+            $this->authAdapter = $authAdapter;
         }
-        if (class_exists($authAdapter)) {
-            if (empty(self::$_authAdapterInstance[$authAdapter]) || !self::$_authAdapterInstance[$authAdapter]) {
-               self::$_authAdapterInstance[$authAdapter] = new $authAdapter();
+
+        if (class_exists($this->authAdapter)) {
+            if (empty(self::$_authAdapterInstance[$this->authAdapter]) || !self::$_authAdapterInstance[$this->authAdapter]) {
+               self::$_authAdapterInstance[$this->authAdapter] = new $this->authAdapter();
             }
-            return self::$_authAdapterInstance[$authAdapter];
+            return self::$_authAdapterInstance[$this->authAdapter];
         } else {
-            throw new Exception(__('Unable to create "%s", Authentication Adapter not found', array($authAdapter)));
+            throw new Exception(__('Unable to create "%s", Authentication Adapter not found', array($this->authAdapter)));
         }
         return false;
     }
 
-    protected function getMapper($mapperClass = null) {
-        if (!$mapperClass) {
-            $mapperClass = $this->mapperClass;
+    public function getMapper($mapperClass = null) {
+        if (!is_null($mapperClass) && class_exists($mapperClass)) {
+            $this->mapperClass = $mapperClass;
         }      
-        if (class_exists($mapperClass)) {
-            if (empty(self::$_mapperInstance[$mapperClass]) || !self::$_mapperInstance[$mapperClass]) {
-                self::$_mapperInstance[$mapperClass] = new $mapperClass();
+
+        if (class_exists($this->mapperClass)) {
+            if (empty(self::$_mapperInstance[$this->mapperClass]) || !self::$_mapperInstance[$this->mapperClass]) {
+                self::$_mapperInstance[$this->mapperClass] = new $this->mapperClass();
             }
-            return self::$_mapperInstance[$mapperClass];
+            return self::$_mapperInstance[$this->mapperClass];
         } else {
-            throw new Exception (__('Mapper class "%s" does not exist', array($mapperClass)));
+            throw new Exception (__('Mapper class "%s" does not exist', array($this->mapperClass)));
         }
     }
 
-    protected function getAcl() {
+    public function getAcl() {
         if (!$this->acl) {
             $this->acl = new Acl();
         }

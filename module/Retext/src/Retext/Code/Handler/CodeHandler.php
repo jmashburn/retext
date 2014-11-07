@@ -35,9 +35,7 @@ class CodeHandler extends JsonHandler {
 			}
 
 			if ($code) {
-				$code = $this->getMapper()->findCodeByKey($code, $owner);
-				print_r($code);
-				die();
+				$codes = $this->getMapper()->findCodeByKey($code, $owner);
 				if (empty($codes[0]['id'])) {
 					throw new Exception(__('Code: "%s" does not exist. Please try again.', array($code)), Exception::WEBAPI_VALUE_ADD_FAILED);
 				}
@@ -52,7 +50,7 @@ class CodeHandler extends JsonHandler {
 	}
 
 	// Add/Update Hook(s)
-	public function post($retext = null) {
+	public function post($code = null) {
 		try {
 			if (!$this->hasIdentity()) {
 				throw new Exception(__('Authentication error. Please login.'), Exception::AUTH_ERROR);
@@ -92,12 +90,6 @@ class CodeHandler extends JsonHandler {
 					throw new Exception(__('Could not write to database: codes table. Please check permissions'), Exception::PERMISSIONS);
 				}
 				\Event::fire('retext.code.created', compact('codes'));
-				// if (!$this->getAcl()->isAllowed($identity->getRole(), $this->resourceRoute, self::PERMISSION_LIST_ALL)) {
-				// 	$owner = $identity->getUsername();
-				// }
-				// $hooks = $this->getMapper()->findAllHooks($owner);
-
-				#$hooks = $this->getMapper()->findHookByEndPoint($params['end_point'], $params['username']);
 				return $this->display('retext/code/list.json.phtml', compact('codes'));
 			} else {
 				throw new Exception(__('The code "%s" already exists.', array($params['code'])), Exception::WEBAPI_KEY_ADD_FAILED);
@@ -146,7 +138,7 @@ class CodeHandler extends JsonHandler {
 
 			if (!empty($deletes['ids'])) {
 				$result = $this->getMapper()->deleteCodesById($deletes['ids']);
-				\Event::fire('retext.deleted', compact('result'));
+				\Event::fire('retext.code.deleted', compact('result'));
 			} else {
 				throw new Exception(__('No Retexts were deleted. Please check permissions'), Exception::AUTH_ERROR);
 			}

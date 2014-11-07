@@ -16,7 +16,7 @@ abstract class AbstractMapper {
 	const COUNT_HIGH = 25;
 	const COUNT_LOW = 1;
 
-	public $context = 'default';
+	public $context;
 
 	protected $setClass;
 
@@ -32,9 +32,9 @@ abstract class AbstractMapper {
 
 	public function __construct($context = null) {
 		if (null !== $context) {
+			\Application\Log::debug('Setting Context '. $context);
 			$this->context = $context;
 		}
-		$this->setTableGateway(PDO::getInstance($this->context));
 	}
 
 	public function setTableGateway(\PDO $tableGateway) {
@@ -55,6 +55,16 @@ abstract class AbstractMapper {
 
 	public function setTableName($tableName) {
 		$this->tableName = $tableName;
+		return $this;
+	}
+
+	public function setContext($context) {
+		$this->context = $context;
+		return $this;
+	}
+
+	public function setEnv($env) {
+		$this->env = $env;
 		return $this;
 	}
 

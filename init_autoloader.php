@@ -1,5 +1,7 @@
 <?php
 
+include_once 'module/Application/src/functions.php';
+
 $loader = include 'vendor/autoload.php';
 
 $config = array('events' => array(), 'routes' => array());

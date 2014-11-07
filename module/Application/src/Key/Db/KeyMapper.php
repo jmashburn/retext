@@ -76,7 +76,7 @@ class KeyMapper extends GuiMapper {
 			'name' => $name,
 			'username' => $username,
 			'hash' => $hash,
-			'creation_time' => time(),
+			'creation_time' => date('Y-m-d H:i:s', time()),
 		);
 
 		try {
