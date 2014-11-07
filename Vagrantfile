@@ -89,10 +89,17 @@ server {
 
 ' > /usr/local/nginx/virtual_host.template
 
-
-
 # Create Site
 /usr/local/bin/create_nginx_site.sh retext.dev 8080
+
+# Set the database to MySQL
+sudo cp /vagrant/config/database.ini.mysql /vagrant/config/database.ini
+
+# Set the phpunit tests database file to mysql
+sudo cp /vagrant/tests/config/database.ini.mysql /vagrant/tests/config/database.ini
+
+cd /vagrant 
+phpunit
 
 touch ${MARKER_FILE}
 CONTENTS

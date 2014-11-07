@@ -1,0 +1,8 @@
+---
+test:
+  gui:
+    type: SQLITE
+    name: ":memory:"
+  retext:
+    type: SQLITE
+    name: ":memory:"
