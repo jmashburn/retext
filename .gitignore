@@ -3,3 +3,4 @@ composer.lock
 vendor
 var/log/*.log
 var/db/*.db
+config/database.ini
