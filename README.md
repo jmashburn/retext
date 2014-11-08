@@ -30,9 +30,7 @@ Once you're up and running you'll need to configure the Twilio settings.
 
 1. Login into your Twilio account (or create a demo account).
 
-2. Copy the Account SID and Auth Token and place them in `config/twilio.inc`
-
-3. In *Manage Numbers* choose the number you want to use and configure the Messaging *Request URL* to point to `http://<url>/api/retext/twilio`
+2. In *Manage Numbers* choose the number you want to use and configure the Messaging *Request URL* to point to `http://<url>/api/retext/twilio`
 
  *Protip: Instead of installing on a public IP use [ngrok](http://ngrok.com) and test it locally.*
 
