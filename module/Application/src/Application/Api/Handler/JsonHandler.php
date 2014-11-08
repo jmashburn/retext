@@ -21,7 +21,7 @@ class JsonHandler extends AbstractHandler {
 
 	protected $apiUrl;
 
-	protected $authAdapter = 'Authentication\SignatureSimple';
+	protected $authAdapter = 'Application\Api\Authentication\SignatureSimple';
 
 	protected $layout = 'views/layout/layout.json.phtml';
 
@@ -83,6 +83,8 @@ class JsonHandler extends AbstractHandler {
                 	throw new Exception($e->getMessage(), $e->getCode(), $e);
                 }
             } catch (Exception $e) {
+            	print_r($e);
+            	die();
 				echo $this->display('exception/exception.json.phtml', $e);
 				exit();
             }
@@ -150,7 +152,7 @@ class JsonHandler extends AbstractHandler {
 	// 	if (!is_null($mapperClass)) {
 	// 		$this->mapperClass = $mapperClass;
 	// 	}
-	
+
 	// 	try {
 	// 		return parent::getMapper($this->mapperClass);
 	// 	} catch (\Application\Exception $e) {

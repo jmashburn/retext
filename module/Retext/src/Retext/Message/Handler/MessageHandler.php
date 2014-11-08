@@ -147,8 +147,8 @@ class MessageHandler extends JsonHandler {
 
 	private function chart($day = 7) {
 		$this->layout = "views/layout/blank.phtml";
-		$end = time();
-		$start = strtotime('-'.$day.' days');
+		$end = date('Y-m-d H:i:s', time());
+		$start = date('Y-m-d H:i:s', strtotime('-'.$day.' days'));
 		$sql = " WHERE `creation_time` >= '$start' AND `creation_time` <= '$end'";
 		// Query Date less than now and greather than 7 days ago.
 		$messages = $this->getMapper()->findAllMessages(null, compact('sql') );
@@ -162,7 +162,7 @@ class MessageHandler extends JsonHandler {
 				++$codes[$message['code']];
 			}
 
-			$day = date('Y-m-d', $message['creation_time']);
+			$day = date('Y-m-d', strtotime($message['creation_time']));
 			if (!isset($times[$day])) {
 				$times[$day] = 1;
 			} else {
@@ -189,8 +189,8 @@ class MessageHandler extends JsonHandler {
 	private function count($day = 7) {
 		$this->layout = "views/layout/blank.phtml";
 
-		$end = time();
-		$start = strtotime('-'.$day.' days');
+		$end = date('Y-m-d H:i:s', time());
+		$start = date('Y-m-d H:i:s', strtotime('-'.$day.' days'));
 		$sql = " WHERE `creation_time` >= '$start' AND `creation_time` <= '$end'";
 		$count = $this->getMapper()->count("SELECT COUNT(*) FROM retext_messages" . $sql);
 		$count = json_encode(array('count' => $count));

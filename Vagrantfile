@@ -46,6 +46,10 @@ mysql --user="root" --password="root" --execute="flush privileges;"
 # Install pdo-mysql
 yum install php-mysql -y
 
+# Restart PHP
+sudo /sbin/service php-fpm restart
+
+
 echo '
 server {
   listen PORT;

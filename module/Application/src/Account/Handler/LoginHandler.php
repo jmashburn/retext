@@ -30,11 +30,11 @@ class LoginHandler extends JsonHandler {
         try {
             $params = $this->getParameters(array('username' => '', 'password' => ''));
             $this->validateMandatoryParameters($params, array('username', 'password'));
-
             $identity = $this->getAuthAdapter()->authenticate($params); 
-            print_r($identity);
-            die('asd');
+
+
             if (!$identity->isValid()) {
+                $this->getAuthAdapter()->clearIdentity();
                 throw new Exception($identity->getMessage(), Exception::AUTH_ERROR);
             }
             $loginResult = array(

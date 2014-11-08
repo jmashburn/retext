@@ -64,8 +64,13 @@
     $(document).ready(function() {
         $("#login_form").submit(function() {
             $.post('/api/account/login', {username:$("#username").val(), password:$("#password").val(), rand:Math.random()}, function(data) {
-                console.log(data);
-               
+                window.location = '/';               
+            })
+            .fail(function(data) {
+                var resp = data.responseJSON.APIResponse;
+                if (resp.errorData.errorMessage) {
+                    $("#errorMessage").html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + resp.errorData.errorMessage + '</div>');
+                }
             });
             return false;
         });

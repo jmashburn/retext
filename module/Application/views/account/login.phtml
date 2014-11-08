@@ -6,6 +6,7 @@
                 <h3 class="panel-title">Please Sign In</h3>
             </div>
             <div class="panel-body">
+                <div id="errorMessage"></div>
                 <form id="login_form" role="form" method="post">
                     <fieldset>
                     	<?php if (!empty($data['params']) && !empty($data['params']['redirectUrl'])): ?>

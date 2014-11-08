@@ -17,6 +17,7 @@ class SignatureAbstract extends AbstractAuthentication {
 		$request = new Request();
 		$headers = $request->getHeaders();
 		$servers = $request->getServer();
+		$identity = new $this->identityClass();
 		if (!empty($headers['X-Api-Signature'])) {
 			$signatureGenerator = new SignatureGenerator();
 			list($keyName, $remoteSignature, $timestamp) = @explode(';', $headers['X-Api-Signature']);
@@ -60,8 +61,8 @@ class SignatureAbstract extends AbstractAuthentication {
 			}
 
 			$identity->setValid(true);
-			return $identity;
 		}
+		return $identity;
 	}
 
 	 public function collectGroups($identity) {

@@ -427,6 +427,7 @@ abstract class AbstractHandler {
         if (!$this->identity) {
             return $this->getAuthAdapter()->getIdentity();
         }
+
         return $this->identity;
     }
 
@@ -455,17 +456,16 @@ abstract class AbstractHandler {
     }
 
     public function getAuthAdapter($authAdapter=null) {
-        if (!is_null($authAdapter) && class_exists($authAdapter)) {
-            $this->authAdapter = $authAdapter;
+        if (!$authAdapter) {
+            $authAdapter = $this->authAdapter;
         }
-
-        if (class_exists($this->authAdapter)) {
-            if (empty(self::$_authAdapterInstance[$this->authAdapter]) || !self::$_authAdapterInstance[$this->authAdapter]) {
-               self::$_authAdapterInstance[$this->authAdapter] = new $this->authAdapter();
+        if (class_exists($authAdapter)) {
+            if (empty(self::$_authAdapterInstance[$authAdapter]) || !self::$_authAdapterInstance[$authAdapter]) {
+                self::$_authAdapterInstance[$authAdapter] = new $this->authAdapter();
             }
-            return self::$_authAdapterInstance[$this->authAdapter];
+            return self::$_authAdapterInstance[$authAdapter];
         } else {
-            throw new Exception(__('Unable to create "%s", Authentication Adapter not found', array($this->authAdapter)));
+            throw new Exception(__('Unable to create "%s", Authentication Adapter not found', array($authAdapter)));
         }
         return false;
     }

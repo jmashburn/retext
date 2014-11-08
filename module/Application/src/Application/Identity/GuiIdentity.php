@@ -14,12 +14,6 @@ class GuiIdentity extends AbstractIdentity {
 
 	private $email;
 	
-	// public function __construct($identity = null, $role = null) {
-	// 	$this->identity = $identity;
-	// 	$this->role = $role;
-	// 	$this->username = $identity;
-	// }
-	
 	public function getIdentity() {
 		return $this->identity;
 	}

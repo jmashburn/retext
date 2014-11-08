@@ -28,11 +28,12 @@ class Authentication extends AbstractAuthentication{
 		}
 
 	    $identity = new $this->identityClass('unknown', 'guest');
-	    if (!isset($result[0])) {
+	    if (!isset($result[0]['id'])) {
 	    	$msg = __('GUI Authentication failed');
 	    	$identity->setMessage($msg);
 	    	return $identity;
 	    }
+
 	    $identity->setUsername($authArray['username']);
 	    $identity->setIdentity($result[0]->name);
 	    $identity->setEmail($result[0]->email);
