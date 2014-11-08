@@ -162,7 +162,7 @@ class MessageHandler extends JsonHandler {
 				++$codes[$message['code']];
 			}
 
-			$day = date('Y-m-d', strtotime($message['creation_time']));
+			$day = date('Y-m-d H:i', strtotime($message['creation_time']));
 			if (!isset($times[$day])) {
 				$times[$day] = 1;
 			} else {
