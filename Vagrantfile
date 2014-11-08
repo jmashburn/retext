@@ -103,6 +103,7 @@ sudo cp /vagrant/config/database.ini.mysql /vagrant/config/database.ini
 sudo cp /vagrant/tests/config/database.ini.mysql /vagrant/tests/config/database.ini
 
 cd /vagrant 
+composer install
 phpunit
 
 touch ${MARKER_FILE}
