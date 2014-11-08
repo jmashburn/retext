@@ -20,7 +20,9 @@ If you're not familiar with Vagrant, please see <https://www.vagrantup.com/>.
 
 1. Download and install Vagrant
 
-2. In root directory run `vagrant up`
+2. Clone project and run `composer install` in project root
+
+3. In root directory run `vagrant up`
 
 ### Twilio ###
 
