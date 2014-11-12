@@ -22,9 +22,8 @@ class WebPDO {
   public static function getInstance($context = 'gui') {
   	try {
 
-		$config_dir = \Config::getConfig('config_dir', 'config/');
 		$dbConfig = array();
-		foreach (\Config::getConfig('config_dir', 'config/') as $dir) {
+		foreach (\Config::getConfig('config_dir', array('config/')) as $dir) {
 			if (file_exists($dir."/database.ini")) {
 				$config = Spyc::YAMLLoad($dir."/database.ini");
 				if (is_array($config)) {
