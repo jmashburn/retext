@@ -2,21 +2,7 @@
 #
 # This image prived a base for 
 
-FROM centos:centos6
-
-# Add the nginx and PHP dependent repository
-ADD docker/nginx.repo /etc/yum.repos.d/nginx.repo
-
-# Installing nginx
-RUN yum install -y nginx
-
-# Installing MySQL
-RUN yum install -y mysql-server mysql-client
-
-# Installing PHP
-RUN yum -y --enablerepo=remi,remi-php56 install nginx php-fpm php-common
-
-RUN yum -y --enablerepo=remi,remi-php56 install php-cli php-pear php-pdo php-mysqlnd php-pgsql php-gd php-mbstring php-mcrypt php-xml
+FROM jmashburn/lemp-centos
 
 # Installing supervisor
 RUN yum install -y python-setuptools
@@ -41,7 +27,7 @@ RUN /etc/init.d/mysqld start
 
 ADD docker/supervisord.conf /etc/
 
-VOLUME ["/etc/mysql", "/var/lib/mysql" ]
+#VOLUME ["/etc/mysql", "/var/lib/mysql" ]
 
 EXPOSE 80 3306
 
