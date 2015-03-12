@@ -2,8 +2,7 @@
 #
 # This image prived a base for 
 
-
-FROM centos:centos7
+FROM centos:centos6
 
 # Add the nginx and PHP dependent repository
 ADD docker/nginx.repo /etc/yum.repos.d/nginx.repo
