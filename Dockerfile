@@ -34,7 +34,7 @@ ADD docker/my.cnf /etc/mysql/my.cnf
 RUN rm -rf /var/lib/mysql/*
 
 ADD docker/mysql_user.sh /mysql_user.sh
-ADD run.sh /run.sh
+ADD docker/run.sh /run.sh
 RUN chmod 755 /*.sh
 
 RUN /etc/init.d/mysqld start
