@@ -4,11 +4,6 @@
 
 FROM jmashburn/lemp-centos
 
-# Installing supervisor
-RUN yum install -y python-setuptools
-RUN easy_install pip
-RUN pip install supervisor
-
 # ENv for setting Username and Passowrd for MySQL
 ENV MYSQL_USER root
 ENV MYSQL_PASS root
@@ -23,6 +18,8 @@ ADD docker/mysql_user.sh /mysql_user.sh
 ADD docker/run.sh /run.sh
 RUN chmod 755 /*.sh
 
+RUN git clone https://github.com/jmashburn/retext.git /var/www/html/
+
 RUN /etc/init.d/mysqld start
 
 ADD docker/supervisord.conf /etc/
@@ -32,8 +29,3 @@ ADD docker/supervisord.conf /etc/
 EXPOSE 80 3306
 
 CMD ["/run.sh"]
-
-
-   
-
-
