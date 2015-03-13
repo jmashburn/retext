@@ -18,7 +18,9 @@ ADD docker/mysql_user.sh /mysql_user.sh
 ADD docker/run.sh /run.sh
 RUN chmod 755 /*.sh
 
-RUN git clone https://github.com/jmashburn/retext.git /var/www/html/
+RUN git clone https://github.com/jmashburn/retext.git /var/www/
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN /etc/init.d/mysqld start
 
