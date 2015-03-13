@@ -18,8 +18,8 @@ ADD docker/mysql_user.sh /mysql_user.sh
 ADD docker/run.sh /run.sh
 RUN chmod 755 /*.sh
 
-RUN rm -rf /var/www/*
-RUN git clone https://github.com/jmashburn/retext.git /var/www/
+RUN rm -rf /var/www
+RUN git clone https://github.com/jmashburn/retext.git /var/www
 
 RUN /etc/init.d/mysqld start
 
