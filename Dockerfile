@@ -21,8 +21,6 @@ RUN chmod 755 /*.sh
 RUN rm -rf /var/www/*
 RUN git clone https://github.com/jmashburn/retext.git /var/www/
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 RUN /etc/init.d/mysqld start
 
 ADD docker/supervisord.conf /etc/
@@ -30,5 +28,7 @@ ADD docker/supervisord.conf /etc/
 #VOLUME ["/etc/mysql", "/var/lib/mysql" ]
 
 EXPOSE 80 3306
+RUN cd /var/www/
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 CMD ["/run.sh"]
