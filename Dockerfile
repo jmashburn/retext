@@ -4,7 +4,12 @@
 
 FROM jmashburn/lemp-centos
 
-# ENv for setting Username and Passowrd for MySQL
+ENV IMAGE_TAGS=web,nginx
+ENV IMAGE_WANTS=mysql
+ENV IMAGE_DESCRIPTION="Retext Web Application"
+ENV IMAGE_EXPOSE_SERVICES="80/http,3306/tcp:mysql"
+
+# Env for setting Username and Passowrd for MySQL
 ENV MYSQL_USER root
 ENV MYSQL_PASS root
 
@@ -18,9 +23,7 @@ ADD docker/mysql_user.sh /mysql_user.sh
 ADD docker/run.sh /run.sh
 RUN chmod 755 /*.sh
 
-RUN git clone https://github.com/jmashburn/retext.git /tmp/retext
-RUN mv /tmp/retext/* /var/www/
-RUN rm -rf /tmp/retext
+RUN git clone https://github.com/jmashburn/retext.git /tmp/retext && mv /tmp/retext/* /var/www/ && rm -rf /tmp/retext
 
 RUN /etc/init.d/mysqld start
 
