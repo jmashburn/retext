@@ -27,7 +27,6 @@ RUN /etc/init.d/php-fpm start
 ADD docker/supervisord.conf /etc/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN /usr/local/bin/composer config -g github-oauth.github.com $GITHUB_AUTH_KEY
 
 RUN chown apache.apache /var/lib/php/session/
 RUn chown apache.apache /var/www/var
