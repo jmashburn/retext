@@ -28,7 +28,7 @@ ADD docker/supervisord.conf /etc/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN chown apache.apache -R /var/lib/php/session
+RUN chmod 777 /var/lib/php/session
 RUn chown apache.apache -R /var/www/var
 
 EXPOSE 80

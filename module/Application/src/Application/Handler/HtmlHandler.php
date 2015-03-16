@@ -18,7 +18,7 @@ class HtmlHandler extends AbstractHandler {
 		parent::__construct();
 		ToroHook::add('before_handler', function($params) {
 			$pathInfo = ($this->getRequest()->getServer('REQUEST_URI'))?$this->getRequest()->getServer('REQUEST_URI'):'/';
-			if (!empty($this->getRequest()->getServer('QUERY_STRING'))) {
+			if (!$this->getRequest()->getServer('QUERY_STRING')) {
 				$pathInfo = str_replace('?'.$this->getRequest()->getServer('QUERY_STRING'), '', $pathInfo);
 			}
 			$identity = $this->getIdentity();
