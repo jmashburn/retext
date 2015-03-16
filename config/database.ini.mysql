@@ -5,12 +5,12 @@ database:
     host: MYSQL_HOST
     name: MYSQL_DATABASE
     port: MYSQL_PORT
-    username: MYSQL_ROOT_USERNAME
-    password: MYSQL_ROOT_PASSWORD
+    username: MYSQL_USERNAME
+    password: MYSQL_PASSWORD
   retext:
     type: MYSQL
     host: MYSQL_HOST
     name: MYSQL_DATABASE
     port: MYSQL_PORT
-    username: MYSQL_ROOT_USERNAME
-    password: MYSQL_ROOT_PASSWORD
+    username: MYSQL_USERNAME
+    password: MYSQL_PASSWORD
