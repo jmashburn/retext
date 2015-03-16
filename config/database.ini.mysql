@@ -2,15 +2,15 @@
 database:
   gui:
     type: MYSQL
-    host: localhost
-    name: retext_dev
-    port: 3306
-    username: retext
-    password: retext
+    host: MYSQL_HOST
+    name: MYSQL_DATABASE
+    port: MYSQL_PORT
+    username: MYSQL_ROOT_USERNAME
+    password: MYSQL_ROOT_PASSWORD
   retext:
     type: MYSQL
-    host: localhost
-    name: retext_dev
-    port: 3306
-    username: retext
-    password: retext
+    host: MYSQL_HOST
+    name: MYSQL_DATABASE
+    port: MYSQL_PORT
+    username: MYSQL_ROOT_USERNAME
+    password: MYSQL_ROOT_PASSWORD
