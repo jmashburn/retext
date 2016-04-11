@@ -6,10 +6,7 @@ $loader = include 'vendor/autoload.php';
 
 $config = array('events' => array(), 'routes' => array());
 
-$database_postfix = '';
-if (get_env('DATABASE_TYPE') && strtolower(get_env('DATABASE_TYPE')) == 'mysql') {
-	$database_postfix = 'mysql';
-}
+$config['database'] = array('type' => '');
 
 foreach (glob("config/autoload/events{,*.}{global,local}.php", GLOB_BRACE) as $file) {
 	$event = include $file;
@@ -21,4 +18,8 @@ foreach (glob("{module/*/config,config}/autoload/routes/{,*.}{global,local}.php"
         $config['routes'] = merge($config['routes'], $routes);
     }
 }
+if (getenv('DATABASE_TYPE') && strtolower(getenv('DATABASE_TYPE')) == 'mysql') {
+	$config['database']['type'] = 'mysql';
+}
+
 return $config;
