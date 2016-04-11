@@ -6,6 +6,11 @@ $loader = include 'vendor/autoload.php';
 
 $config = array('events' => array(), 'routes' => array());
 
+$database_postfix = '';
+if (get_env('DATABASE_TYPE') && strtolower(get_env('DATABASE_TYPE')) == 'mysql') {
+	$database_postfix = 'mysql';
+}
+
 foreach (glob("config/autoload/events{,*.}{global,local}.php", GLOB_BRACE) as $file) {
 	$event = include $file;
 }
