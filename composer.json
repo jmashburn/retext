@@ -18,7 +18,7 @@
         }
     },
     "scripts": {
-   	"post-create-project-cmd": [
+   	"post-install-cmd": [
             "php -r \"copy('config/htaccess.dist', '.htaccess');\""
         ]
     }
