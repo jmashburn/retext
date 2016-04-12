@@ -22,18 +22,15 @@ class WebPDO {
   public static function getInstance($context = 'gui') {
   	try {
   		$dbConfig = array();
-  		if (!getenv('USE_ENV')) {
-			foreach (\Config::getConfig('config_dir', array('config/')) as $dir) {
-				if (file_exists($dir."/database.ini")) {
-					$config = Spyc::YAMLLoad($dir."/database.ini");
-					if (is_array($config)) {
-						$dbConfig = merge($dbConfig, $config);
-					}
+
+		foreach (\Config::getConfig('config_dir', array('config/')) as $dir) {
+			if (file_exists($dir."/database.ini")) {
+				$config = Spyc::YAMLLoad($dir."/database.ini");
+				if (is_array($config)) {
+					$dbConfig = merge($dbConfig, $config);
 				}
 			}
-  		} else {
-  			
-  		}
+		}
 
 		if (empty($dbConfig)) {
 			throw new Exception(__('No database config found'), 100);
