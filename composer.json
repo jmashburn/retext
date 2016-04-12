@@ -16,5 +16,10 @@
             "Retext\\": "module/Retext/src/",
             "": ["module/Application/src/"]
         }
+    },
+    "scripts": {
+   	"post-create-project-cmd": [
+            "php -r \"copy('htaccess.dist', '.htaccess');\""
+        ]
     }
 }
