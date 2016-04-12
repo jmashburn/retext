@@ -7,6 +7,8 @@ $time = microtime();
 $time = explode(' ', $time);
 $start = $time[1] + $time[0];
 
+
+session_save_path('/tmp/sessions');
 session_start();
 $config = include_once 'init_autoloader.php';
 
